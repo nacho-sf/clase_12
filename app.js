@@ -15,6 +15,8 @@ console.log(calc.add(10, 100));
 const app = express()
 const port = 3000
 
+app.set('view engine', 'pug'); // Qué motor de vistas va a usar ('pug')
+app.set('views','./views'); // Ruta de la carpeta donde van a estar guardadas las 'views'
 
 // HOME
 // http://localhost:3000
@@ -22,7 +24,9 @@ const port = 3000
 app.get('/', (req, res) => {
   console.log(emoji);
   console.log(cowsay.say("Hola!", { cow: owl }));
-  res.send('Hola desde mi primer servidor! '+emoji)
+  //res.send('Hola desde mi primer servidor! '+emoji)
+  let msj = 'Hola desde mi primer servidor! '+emoji
+  res.render("my_view",{section:"Home", msj}); // Renderizado en html ("template",{objeto});
 })
 
 
@@ -36,17 +40,18 @@ app.get('/pokemon/:name?', (req, res) => {
     }
 
   console.log(cowsay.say(msj, { cow: owl }));
-  res.send(msj+" "+emoji);
+  //res.send(msj+" "+emoji);
+  res.render("my_view",{section:"Pokemon", msj});
 })
 
 app.get('/perritos', (req, res) => {
   let msj = "¿Cuánto son 2+2?: "+calc.add(2,2);
   console.log(cowsay.say(msj, { cow: owl }));
-  res.send('Aquí te enviaría mis perritos y ... '+msj)
+  //res.send('Aquí te enviaría mis perritos y ... '+msj+" "+emoji);
+  let msj2 = 'Aquí te enviaría mis perritos y ... '+msj+" "+emoji;
+  res.render("my_view",{section:"Perritos", msj:msj2});
 })
 
-// req: Request (lo que se pide)
-// res: Response (lo que se devuelve)
 
 
 
